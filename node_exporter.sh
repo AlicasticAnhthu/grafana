@@ -1,5 +1,8 @@
 #!/bin/bash
 # Install node_exporter
+
+#manually set up with https://kifarunix.com/monitor-linux-system-metrics-with-prometheus-node-exporter/
+
 version="${VERSION:-0.18.0}"
 arch="${ARCH:-linux-amd64}"
 bin_dir="${BIN_DIR:-/usr/local/bin}"
