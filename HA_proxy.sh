@@ -52,10 +52,16 @@ defaults
 	errorfile 502 /etc/haproxy/errors/502.http
 	errorfile 503 /etc/haproxy/errors/503.http
 	errorfile 504 /etc/haproxy/errors/504.http
+
+frontend stats
+  bind *:8404
+  stats enable
+  stats uri /
+  stats refresh 10s
 EOF
 fi
 
-systemctl restart haproxy.service
+systemctl start haproxy.service
 systemctl enable haproxy.service
 systemctl status haproxy.service
 
@@ -105,7 +111,7 @@ ExecStart=/usr/local/bin/haproxy_exporter \
   --haproxy.timeout=20s \
   --web.listen-address=0.0.0.0:9101 \
   --web.telemetry-path=/metrics \
-  '--haproxy.scrape-uri=http://admin:haproxy@10.11.1.30:8080/stats;csv'
+  '--haproxy.scrape-uri=http://10.0.0.10:8404/stats;csv'
 
 SyslogIdentifier=prometheus
 Restart=always
