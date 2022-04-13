@@ -8,7 +8,7 @@ add-apt-repository ppa:vbernat/haproxy-1.8
 
 #Update the required packages to install HAProxy
 apt-get update
-echo "Up-to-date HAProxy packages"
+echo "Up-to-date local packages index"
 
 #Install HAProxy
 apt-get install haproxy
@@ -71,9 +71,6 @@ version="${VERSION:-0.12.0}"
 arch="${ARCH:-linux-amd64}"
 bin_dir="${BIN_DIR:-/usr/local/bin}"
 
-# Check folder opt
-mkdir -p /etc;
-
 #Download HA_proxy node_exporter 
 wget -q "https://github.com/prometheus/haproxy_exporter/releases/download/v$version/haproxy_exporter-$version.$arch.tar.gz" \
     -O /etc/haproxy_exporter.tar.gz
@@ -123,7 +120,7 @@ fi
 
 chown -R root: /etc/systemd/system/haproxy_exporter.service
 
-systemctl restart haproxy.service
-systemctl enable haproxy.service
-systemctl status haproxy.service
+systemctl restart haproxy_exporter.service
+systemctl enable haproxy_exporter.service
+systemctl status haproxy_exporter.service
 echo "HA_proxy node_exporter service successfully installed"
