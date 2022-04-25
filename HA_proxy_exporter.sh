@@ -3,7 +3,6 @@
 
 #manually set up with https://www.lisenet.com/2021/monitor-haproxy-with-grafana-and-prometheus-haproxy_exporter/ and https://oguzhaninan.gitbook.io/haproxy/prometheus-metrics/haproxy-exporter
 source HA_proxy_variables.sh
-source HA_proxy_exporter.sh
 
 version="${VERSION:-0.12.0}"
 arch="${ARCH:-linux-amd64}"
@@ -20,17 +19,15 @@ mkdir -p /etc/haproxy_exporter;
 #Move HA_proxy node_exporter to /usr/local/bin
 cd /etc
 
-tar xfz /etc/haproxy_exporter.tar.gz -C /etc/haproxy_exporter || { echo "Error extracting HA_proxy node_exporter tar"; exit 1;} 
+tar xfz /etc/haproxy_exporter.tar.gz -C /usr/local/bin/ || { echo "Error extracting HA_proxy node_exporter tar"; exit 1;} 
 
 chown -R root: /usr/local/bin/
-
-chown -R root: /etc/systemd/system/haproxy_exporter.service
 
 if [ ! -f $bin_dir/haproxy_exporter ]; then
     cp "/etc/haproxy_exporter/haproxy_exporter-$version.$arch/haproxy_exporter" "$bin_dir";
 fi
 
-if [ ! -f $bin_dir/haproxy_exporter ]; then
+if [ ! -f /etc/systemd/haproxy_exporter ]; then
 cat <<EOF > /etc/systemd/system/haproxy_exporter.service   
 [Unit]
 Description=Prometheus
@@ -58,6 +55,9 @@ Restart=always
 WantedBy=multi-user.target
 EOF
 fi
+
+chown -R root: /etc/systemd/system/haproxy_exporter.service
+chmod 0644 /etc/systemd/system/haproxy_exporter.service
 
 systemctl restart haproxy_exporter.service
 systemctl enable haproxy_exporter.service
