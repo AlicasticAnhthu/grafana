@@ -54,3 +54,5 @@ systemctl start node_exporter.service
 systemctl enable node_exporter.service
 
 echo "Node_exporter successfully installed"
+
+systemctl status node_exporter.service

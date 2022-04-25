@@ -50,27 +50,27 @@ arch="${ARCH:-linux-amd64}"
 bin_dir="${BIN_DIR:-/usr/local/bin}"
 
 #Change directory to /etc
-cd /etc
+mkdir -p /opt
 
 #Download Nginx node_exporter
 wget -q "https://github.com/nginxinc/nginx-prometheus-exporter/releases/download/v$version/nginx-prometheus-exporter-$version-$arch.tar.gz" \
-    -O /etc/nginx_exporter.tar.gz
+    -O /opt/nginx_exporter.tar.gz
 
 echo "Downloaded nginx_exporter v$version"
 
 #Check folder nginx_exporter
-rm -rf $bin_dir/nginx_exporter
-mkdir -p /etc/nginx_exporter
 
-tar xfz /etc/nginx_exporter.tar.gz -C /etc/nginx_exporter || { echo "Error extracting nginx_exporter tar"; exit 1;}
+mkdir -p /opt/nginx_exporter
 
-mv nginx_exporter $bin_dir
+#cd/opt
+
+tar xfz /opt/nginx_exporter.tar.gz -C /opt/nginx_exporter || { echo "Error extracting nginx_exporter tar"; exit 1;}
 
 if [ ! -f $bin_dir/nginx_exporter ]; then
-    cp "/etc/nginx_exporter/nginx-prometheus-exporter-$version-$arch/nginx_exporter" "$bin_dir";
+    cp "/opt/nginx_exporter/nginx-prometheus-exporter-$version-$arch/nginx_exporter" "$bin_dir";
 fi
 
-if [ ! -f $bin_dir/system/nginx_exporter.service ]; then
+if [ ! -f $etc/system/nginx_exporter.service ]; then
 cat <<EOF > /etc/systemd/system/nginx_exporter.service
 [Unit]
 Description=NGINX Prometheus Exporter
@@ -81,7 +81,7 @@ Type=simple
 User=nginx_exporter
 Group=nginx_exporter
 ExecStart=/usr/local/bin/nginx-prometheus-exporter \
-    -web.listen-address=10.0.0.10:9113 \
+    -web.listen-address=$ip:9113 \
     -nginx.scrape-uri http://127.0.0.1:81/metrics
 
 SyslogIdentifier=nginx_prometheus_exporter
