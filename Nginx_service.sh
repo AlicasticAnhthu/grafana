@@ -35,7 +35,6 @@ server {
     }
 }
 EOF
-fi
 
 systemctl restart nginx.service
 systemctl status nginx.service
