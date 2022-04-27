@@ -1,3 +1,4 @@
+#!/bin/bash
 #Manually set up with https://www.observability.blog/nginx-monitoring-with-prometheus/
 
 source Nginx_variables.sh

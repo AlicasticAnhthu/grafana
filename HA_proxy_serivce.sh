@@ -1,3 +1,5 @@
+#!/bin/bash
+
 source HA_proxy_variables.sh
 
 #Add repository HAProxy ver 1.8
@@ -55,7 +57,7 @@ frontend stats
   stats enable
   stats uri /
   stats refresh 10s
-  stats auth username:password
+  stats auth $username:$password
 EOF
 fi
 
