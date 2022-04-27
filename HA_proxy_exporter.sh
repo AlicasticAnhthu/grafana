@@ -14,7 +14,7 @@ wget -q "https://github.com/prometheus/haproxy_exporter/releases/download/v$vers
 echo "Downloaded HA_proxy node_exporter v$version"
 
 #Check folder HA_proxy node_exporter
-mkdir -p /etc/haproxy_exporter;
+mkdir -p /etc/haproxy_exporter
 
 #Move HA_proxy node_exporter to /usr/local/bin
 cd /etc
