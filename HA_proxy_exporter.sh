@@ -45,7 +45,7 @@ ExecStart=/usr/local/bin/haproxy_exporter \
   --haproxy.timeout=20s \
   --web.listen-address=0.0.0.0:9101 \
   --web.telemetry-path=/metrics \
-  '--haproxy.scrape-uri=http://$ip:$service_port/stats;csv'
+  '--haproxy.scrape-uri=http://$ip:$service_port$stats_uri;csv'
   
 
 SyslogIdentifier=prometheus
